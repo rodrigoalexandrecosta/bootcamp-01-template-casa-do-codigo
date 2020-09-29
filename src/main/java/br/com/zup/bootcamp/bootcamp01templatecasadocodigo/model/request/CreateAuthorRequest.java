@@ -1,20 +1,18 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request;
 
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Author;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.Instant;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
+@Setter
 public class CreateAuthorRequest {
 
     @NotBlank(message = "message.author.name.mandatory")
