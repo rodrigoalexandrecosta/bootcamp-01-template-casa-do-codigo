@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthorService {
@@ -13,7 +15,13 @@ public class AuthorService {
     private final AuthorRepository authorRepository;
 
     @Transactional
-    public Author create(CreateAuthorRequest request) {
+    public Author create(final CreateAuthorRequest request) {
         return authorRepository.save(request.toAuthor());
+    }
+
+    public Optional<Author> findById(final Long authorId) {
+        return authorRepository.findById(authorId)
+                .stream()
+                .findFirst();
     }
 }
