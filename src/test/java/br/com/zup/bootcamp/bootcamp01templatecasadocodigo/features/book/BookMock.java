@@ -17,13 +17,13 @@ public final class BookMock {
     }
 
     public static CreateBookRequest buildCreateBookRequest() {
-        final Category category = Category.builder().name("Programming").build();
-        final Author author = Author.builder()
-                .name("Robert C. Martin")
-                .email("unclebob@" + RandomString.make(12) + ".org")
-                .description("Uncle Bob always saves the day.")
-                .createdAt(Instant.now())
-                .build();
+//        final Category category = Category.builder().name("Programming").build();
+//        final Author author = Author.builder()
+//                .name("Robert C. Martin")
+//                .email("unclebob@" + RandomString.make(12) + ".org")
+//                .description("Uncle Bob always saves the day.")
+//                .createdAt(Instant.now())
+//                .build();
 
         return CreateBookRequest.builder()
                 .title("Clean Code: A Handbook of Agile Software Craftsmanship")
@@ -33,8 +33,8 @@ public final class BookMock {
                 .numberOfPages(546)
                 .isbn(Long.valueOf("9780132350884"))
                 .publicationDate(LocalDate.now().plusDays(1))
-                .category(category)
-                .author(author)
+                .categoryId(123L)
+                .authorId(123L)
                 .build();
     }
 

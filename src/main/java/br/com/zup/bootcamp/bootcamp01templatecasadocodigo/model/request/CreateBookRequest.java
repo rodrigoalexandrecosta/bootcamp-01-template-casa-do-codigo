@@ -40,9 +40,15 @@ public class CreateBookRequest {
     @Future(message = "message.book.publication-date.future-date")
     private LocalDate publicationDate;
 
-    @NotNull(message = "message.book.category.mandatory")
-    private Category category;
+    @NotNull(message = "message.book.author-id.mandatory")
+    private Long authorId;
 
-    @NotNull(message = "message.book.author.mandatory")
-    private Author author;
+    @NotNull(message = "message.book.category-id.mandatory")
+    private Long categoryId;
+
+//    @NotNull(message = "message.book.category.mandatory")
+//    private Category category;
+//
+//    @NotNull(message = "message.book.author.mandatory")
+//    private Author author;
 }

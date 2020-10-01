@@ -22,7 +22,7 @@ public class Book {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String synopsis;
 
     @Column
@@ -34,7 +34,7 @@ public class Book {
     @Column(nullable = false)
     private Integer numberOfPages;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Long isbn;
 
     @Column(nullable = false)
@@ -48,7 +48,7 @@ public class Book {
     @JoinColumn(name = "authorId")
     private Author author;
 
-    public static Book from(final CreateBookRequest request) {
+    public static Book from(final CreateBookRequest request, final Author author, final Category category) {
         return Book.builder()
                 .title(request.getTitle())
                 .synopsis(request.getSynopsis())
@@ -57,8 +57,8 @@ public class Book {
                 .numberOfPages(request.getNumberOfPages())
                 .isbn(request.getIsbn())
                 .publicationDate(request.getPublicationDate())
-                .category(request.getCategory())
-                .author(request.getAuthor())
+                .author(author)
+                .category(category)
                 .build();
     }
 }

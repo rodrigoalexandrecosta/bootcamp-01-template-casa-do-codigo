@@ -66,8 +66,8 @@ public class BookRestControllerTest {
                 "message.book.number-of-pages.mandatory",
                 "message.book.isbn.mandatory",
                 "message.book.publication-date.mandatory",
-                "message.book.category.mandatory",
-                "message.book.author.mandatory")
+                "message.book.category-id.mandatory",
+                "message.book.author-id.mandatory")
                 .collect(Collectors.toList());
 
         mockMvc.perform(post("/api/v1/books")
