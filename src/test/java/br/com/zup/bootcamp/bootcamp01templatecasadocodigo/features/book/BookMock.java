@@ -1,14 +1,13 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.book;
 
-import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Author;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Book;
-import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Category;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateBookRequest;
-import net.bytebuddy.utility.RandomString;
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.response.BookDetailsByIdResponse;
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.response.FindAllBooksResponse;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Random;
 
 public final class BookMock {
 
@@ -17,21 +16,13 @@ public final class BookMock {
     }
 
     public static CreateBookRequest buildCreateBookRequest() {
-//        final Category category = Category.builder().name("Programming").build();
-//        final Author author = Author.builder()
-//                .name("Robert C. Martin")
-//                .email("unclebob@" + RandomString.make(12) + ".org")
-//                .description("Uncle Bob always saves the day.")
-//                .createdAt(Instant.now())
-//                .build();
-
         return CreateBookRequest.builder()
                 .title("Clean Code: A Handbook of Agile Software Craftsmanship")
                 .synopsis("Even bad code can function. But if code isn’t clean, it can bring a development organization to its knees.")
                 .summary("Part 1 - Bad Code; Part 2 - Clean Code")
                 .price(new BigDecimal("129.90"))
                 .numberOfPages(546)
-                .isbn(Long.valueOf("9780132350884"))
+                .isbn(new Random().nextLong())
                 .publicationDate(LocalDate.now().plusDays(1))
                 .categoryId(123L)
                 .authorId(123L)
@@ -40,6 +31,16 @@ public final class BookMock {
 
     public static Book buildBook() {
         return Book.builder()
+                .build();
+    }
+
+    public static BookDetailsByIdResponse buildDetailsResponse() {
+        return BookDetailsByIdResponse.builder()
+                .build();
+    }
+
+    public static FindAllBooksResponse buildFindAllBooksResponse() {
+        return FindAllBooksResponse.builder()
                 .build();
     }
 

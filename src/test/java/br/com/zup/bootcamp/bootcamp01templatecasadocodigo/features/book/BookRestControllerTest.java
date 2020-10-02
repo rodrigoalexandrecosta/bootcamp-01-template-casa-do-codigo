@@ -1,6 +1,8 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.book;
 
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateBookRequest;
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.response.BookDetailsByIdResponse;
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.response.FindAllBooksResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.Test;
@@ -15,11 +17,14 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BookRestController.class)
@@ -120,6 +125,31 @@ public class BookRestControllerTest {
                 .content(body))
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().json(objectMapper.writeValueAsString(List.of("message.book.publication-date.future-date"))));
+    }
+
+    @Test
+    void findBookDetailsById() throws Exception {
+        final BookDetailsByIdResponse response = BookMock.buildDetailsResponse();
+
+        when(this.bookService.findDetailsById(any())).thenReturn(Optional.of(response));
+
+        mockMvc.perform(get("/api/v1/books/" + new Random().nextLong())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(response)));
+    }
+
+    @Test
+    void findAll() throws Exception {
+        final FindAllBooksResponse response1 = BookMock.buildFindAllBooksResponse();
+        final FindAllBooksResponse response2 = BookMock.buildFindAllBooksResponse();
+
+        when(this.bookService.findAll()).thenReturn(List.of(response1, response2));
+
+        mockMvc.perform(get("/api/v1/books/")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(List.of(response1, response2))));
     }
 
 }
