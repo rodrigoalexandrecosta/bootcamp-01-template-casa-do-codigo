@@ -4,6 +4,7 @@ import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateCa
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -19,6 +20,9 @@ public class Category {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    @OneToMany(mappedBy = "category")
+    private Set<Book> books;
 
     public static Category from(final CreateCategoryRequest request) {
         return Category.builder()

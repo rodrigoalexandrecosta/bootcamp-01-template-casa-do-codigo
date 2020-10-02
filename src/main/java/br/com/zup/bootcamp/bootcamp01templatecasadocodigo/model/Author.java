@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -28,4 +29,7 @@ public class Author {
 
     @Column(nullable = false)
     private Instant createdAt = Instant.now();
+
+    @OneToMany(mappedBy = "author")
+    private Set<Book> books;
 }

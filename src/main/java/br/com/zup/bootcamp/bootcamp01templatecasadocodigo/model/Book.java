@@ -41,11 +41,11 @@ public class Book {
     private LocalDate publicationDate;
 
     @ManyToOne
-    @JoinColumn(name = "categoryId")
+    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "authorId")
+    @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
     private Author author;
 
     public static Book from(final CreateBookRequest request, final Author author, final Category category) {
