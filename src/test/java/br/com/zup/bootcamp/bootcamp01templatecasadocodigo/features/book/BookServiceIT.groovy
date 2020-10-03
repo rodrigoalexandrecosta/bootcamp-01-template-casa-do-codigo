@@ -32,10 +32,10 @@ class BookServiceIT extends Specification{
     def "Create a new book with success"() {
         given: "I have a new book information."
         def request = BookMock.buildCreateBookRequest()
-//        def author = authorService.create(AuthorMock.buildCreateAuthorRequest())
+        def author = authorService.create(AuthorMock.buildCreateAuthorRequest())
         def category = categoryService.create(CategoryMock.buildCreateCategoryRequest())
 
-//        request.setAuthorId(author.getId())
+        request.setAuthorId(author.getId())
         request.setCategoryId(category.getId())
 
         when: "I handle the new book to be persistent."
