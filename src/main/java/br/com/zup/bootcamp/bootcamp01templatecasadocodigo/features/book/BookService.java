@@ -32,7 +32,7 @@ public class BookService {
         Category category = categoryService.findById(request.getCategoryId())
                 .orElseThrow();
 
-        return this.bookRepository.save(Book.from(request, author, category));
+        return this.bookRepository.save(request.toBook(author, category));
     }
 
     public Optional<BookDetailsByIdResponse> findDetailsById(final Long bookId) {

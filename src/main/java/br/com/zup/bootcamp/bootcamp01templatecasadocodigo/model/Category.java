@@ -23,10 +23,4 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     private Set<Book> books;
-
-    public static Category from(final CreateCategoryRequest request) {
-        return Category.builder()
-                .name(request.getName())
-                .build();
-    }
 }

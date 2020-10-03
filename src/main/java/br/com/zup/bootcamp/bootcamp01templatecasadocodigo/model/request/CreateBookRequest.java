@@ -1,6 +1,7 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request;
 
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Author;
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Book;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Category;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -46,9 +47,17 @@ public class CreateBookRequest {
     @NotNull(message = "message.book.category-id.mandatory")
     private Long categoryId;
 
-//    @NotNull(message = "message.book.category.mandatory")
-//    private Category category;
-//
-//    @NotNull(message = "message.book.author.mandatory")
-//    private Author author;
+    public Book toBook(final Author author, final Category category) {
+        return Book.builder()
+                .title(this.title)
+                .synopsis(this.synopsis)
+                .summary(this.summary)
+                .price(this.price)
+                .numberOfPages(this.numberOfPages)
+                .isbn(this.isbn)
+                .publicationDate(this.publicationDate)
+                .author(author)
+                .category(category)
+                .build();
+    }
 }

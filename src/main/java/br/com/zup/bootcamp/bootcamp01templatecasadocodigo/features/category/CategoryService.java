@@ -16,7 +16,7 @@ public class CategoryService {
 
     @Transactional
     public Category create(final CreateCategoryRequest request) {
-        return this.categoryRepository.save(Category.from(request));
+        return this.categoryRepository.save(request.toCategory());
     }
 
     public Optional<Category> findById(final Long categoryId) {
