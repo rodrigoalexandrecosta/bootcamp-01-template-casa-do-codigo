@@ -1,6 +1,5 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model;
 
-import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateCategoryRequest;
 import lombok.*;
 
 import javax.persistence.*;

@@ -1,11 +1,14 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Getter
+@Setter
 public class Country {
 
     @Id
@@ -14,6 +17,9 @@ public class Country {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    @OneToMany(mappedBy = "country")
+    private Set<CountryState> states;
 
 
     @Deprecated
