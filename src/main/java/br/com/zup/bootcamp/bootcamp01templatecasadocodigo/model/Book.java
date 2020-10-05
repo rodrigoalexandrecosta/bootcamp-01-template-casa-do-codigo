@@ -40,10 +40,8 @@ public class Book {
     private LocalDate publicationDate;
 
     @ManyToOne
-//    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     private Category category;
 
     @ManyToOne
-//    @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
     private Author author;
 }

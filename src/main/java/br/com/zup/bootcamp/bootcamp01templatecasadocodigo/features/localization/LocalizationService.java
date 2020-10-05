@@ -26,6 +26,7 @@ public class LocalizationService {
     @Transactional
     public Long createCountryState(final CreateCountryStateRequest request) {
         final Optional<Country> optionalCountry = this.findCountryById(request.getCountryId());
+
         if (optionalCountry.isEmpty()) {
             throw new IllegalArgumentException("message.country-state.country.not-found");
         }
