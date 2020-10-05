@@ -15,13 +15,12 @@ public class AuthorService {
     private final AuthorRepository authorRepository;
 
     @Transactional
-    public Author create(final CreateAuthorRequest request) {
-        return authorRepository.save(request.toAuthor());
+    public Long create(final CreateAuthorRequest request) {
+        final Author author = authorRepository.save(request.toAuthor());
+        return author.getId();
     }
 
     public Optional<Author> findById(final Long authorId) {
-        return authorRepository.findById(authorId)
-                .stream()
-                .findFirst();
+        return authorRepository.findById(authorId);
     }
 }

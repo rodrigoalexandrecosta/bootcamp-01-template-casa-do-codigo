@@ -1,6 +1,5 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.category
 
-import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Category
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
@@ -18,10 +17,10 @@ class CategoryServiceIT extends Specification {
         def request = CategoryMock.buildCreateCategoryRequest()
 
         when: "I handle this new category to be persistent."
-        def category = categoryService.create(request)
+        def categoryId = categoryService.create(request)
 
         then: "The new category is created, stored and returned."
-        category != null
-        category.getClass().isAssignableFrom(Category.class)
+        categoryId != null
+        categoryId.getClass().isAssignableFrom(Long.class)
     }
 }

@@ -42,7 +42,7 @@ public class BookRestControllerTest {
     @Test
     void create() throws Exception {
         final String body = objectMapper.writeValueAsString(BookMock.buildCreateBookRequest());
-        Mockito.when(bookService.create(any())).thenReturn(BookMock.buildBook());
+        Mockito.when(bookService.create(any())).thenReturn(new Random().nextLong());
 
         final ResultActions resultActions = mockMvc.perform(post("/api/v1/books")
                 .contentType(MediaType.APPLICATION_JSON)

@@ -15,14 +15,13 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
-    public Category create(final CreateCategoryRequest request) {
-        return this.categoryRepository.save(request.toCategory());
+    public Long create(final CreateCategoryRequest request) {
+        final Category category = this.categoryRepository.save(request.toCategory());
+        return category.getId();
     }
 
     public Optional<Category> findById(final Long categoryId) {
-        return this.categoryRepository.findById(categoryId)
-                .stream()
-                .findFirst();
+        return this.categoryRepository.findById(categoryId);
     }
 
 }

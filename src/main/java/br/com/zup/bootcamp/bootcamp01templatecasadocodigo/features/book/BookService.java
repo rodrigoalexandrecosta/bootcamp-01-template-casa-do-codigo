@@ -25,14 +25,15 @@ public class BookService {
     private final CategoryService categoryService;
 
     @Transactional
-    public Book create(final CreateBookRequest request) {
-        Author author = authorService.findById(request.getAuthorId())
+    public Long create(final CreateBookRequest request) {
+        final Author author = authorService.findById(request.getAuthorId())
                 .orElseThrow();
 
-        Category category = categoryService.findById(request.getCategoryId())
+        final Category category = categoryService.findById(request.getCategoryId())
                 .orElseThrow();
 
-        return this.bookRepository.save(request.toBook(author, category));
+        final Book book = this.bookRepository.save(request.toBook(author, category));
+        return book.getId();
     }
 
     public Optional<BookDetailsByIdResponse> findDetailsById(final Long bookId) {
@@ -51,6 +52,6 @@ public class BookService {
 
     @Transactional
     public void deleteAll() {
-        this.bookRepository.deleteAll();;
+        this.bookRepository.deleteAll();
     }
 }

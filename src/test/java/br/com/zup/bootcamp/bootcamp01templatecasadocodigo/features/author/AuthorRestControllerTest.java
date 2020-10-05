@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,7 +38,7 @@ public class AuthorRestControllerTest {
     @Test
     void create() throws Exception {
         final String body = objectMapper.writeValueAsString(AuthorMock.buildCreateAuthorRequest());
-        Mockito.when(authorService.create(any())).thenReturn(AuthorMock.buildAuthor());
+        Mockito.when(authorService.create(any())).thenReturn(new Random().nextLong());
 
         final ResultActions resultActions = mockMvc.perform(post("/api/v1/authors")
                 .contentType(MediaType.APPLICATION_JSON)

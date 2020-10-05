@@ -17,7 +17,7 @@ public class CreateCategoryRequest {
 
     public Category toCategory() {
         return Category.builder()
-                .name(this.name)
+                .name(this.name.toUpperCase())
                 .build();
     }
 }

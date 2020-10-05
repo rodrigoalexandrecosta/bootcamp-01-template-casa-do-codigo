@@ -1,6 +1,5 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.book;
 
-import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Book;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateBookRequest;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.response.BookDetailsByIdResponse;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.response.FindAllBooksResponse;
@@ -24,8 +23,8 @@ public class BookRestController {
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@RequestBody @Valid CreateBookRequest request) {
-        final Book book = this.bookService.create(request);
-        return ResponseEntity.created(URI.create(String.format("/books/%s", book.getId()))).build();
+        final Long id = this.bookService.create(request);
+        return ResponseEntity.created(URI.create(String.format("/books/%s", id))).build();
     }
 
     @GetMapping(value = "/{bookId}")

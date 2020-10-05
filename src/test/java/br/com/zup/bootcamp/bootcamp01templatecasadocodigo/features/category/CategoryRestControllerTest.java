@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
+import java.util.Random;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -32,7 +33,7 @@ public class CategoryRestControllerTest {
     @Test
     void create() throws Exception {
         final String body = objectMapper.writeValueAsString(CategoryMock.buildCreateCategoryRequest());
-        Mockito.when(categoryService.create(any())).thenReturn(CategoryMock.buildCategory());
+        Mockito.when(categoryService.create(any())).thenReturn(new Random().nextLong());
 
         final ResultActions resultActions = mockMvc.perform(post("/api/v1/categories")
                 .contentType(MediaType.APPLICATION_JSON)

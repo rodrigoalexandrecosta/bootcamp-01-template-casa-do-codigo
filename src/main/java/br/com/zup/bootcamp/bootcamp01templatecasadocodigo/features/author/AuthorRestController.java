@@ -1,6 +1,5 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.author;
 
-import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Author;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateAuthorRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ public class AuthorRestController {
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@RequestBody @Valid CreateAuthorRequest request) {
-        final Author author = authorService.create(request);
-        return ResponseEntity.created(URI.create(String.format("/authors/%s", author.getId()))).build();
+        final Long id = authorService.create(request);
+        return ResponseEntity.created(URI.create(String.format("/authors/%s", id))).build();
     }
 }
