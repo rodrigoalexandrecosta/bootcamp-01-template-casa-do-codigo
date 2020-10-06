@@ -43,9 +43,9 @@ public class Customer {
     @Column(nullable = false)
     private String phone;
 
-//    @Column(nullable = false)
-//    private CountryState state;
-//
-//    @Column(nullable = false)
-//    private Country country;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private CountryState state;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Country country;
 }

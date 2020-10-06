@@ -1,11 +1,14 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request;
 
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Country;
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.CountryState;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Customer;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.validation.SocialIdentity;
 import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -45,12 +48,23 @@ public class CreateCustomerRequest {
 
     private Long countryStateId;
 
+    @NotNull(message = "message.customer.country-id.mandatory")
     private Long countryId;
 
 
-    public Customer toCostumer() {
+    public Customer toCostumer(final Country country, final CountryState state) {
         return Customer.builder()
-
+                .email(this.getEmail())
+                .firstName(this.getFirstName())
+                .lastName(this.getLastName())
+                .socialIdentity(this.getSocialIdentity())
+                .zipCode(this.getZipCode())
+                .address(this.getAddress())
+                .complement(this.getComplement())
+                .city(this.getCity())
+                .phone(this.getPhone())
+                .country(country)
+                .state(state)
                 .build();
     }
 }

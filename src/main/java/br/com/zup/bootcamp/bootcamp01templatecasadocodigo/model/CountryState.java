@@ -1,11 +1,14 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
+@Setter
 public class CountryState {
 
     @Id
@@ -17,6 +20,9 @@ public class CountryState {
 
     @ManyToOne
     private Country country;
+
+    @OneToMany(mappedBy = "state")
+    private List<Customer> customers;
 
 
     @Deprecated

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
@@ -32,7 +33,8 @@ public class ExceptionAdvice {
         return status(CONFLICT).body(e.getMessage());
     }
 
-    @ExceptionHandler(value = {IllegalArgumentException.class, HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class})
+    @ExceptionHandler(value = {IllegalArgumentException.class, HttpMessageNotReadableException.class,
+            MethodArgumentTypeMismatchException.class, NoSuchElementException.class})
     ResponseEntity<Object> handleInvalidRequest(Exception e) {
         return status(BAD_REQUEST).body(e.getMessage());
     }

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,8 +19,11 @@ public class Country {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "country", fetch = FetchType.EAGER)
     private Set<CountryState> states;
+
+    @OneToMany(mappedBy = "country")
+    private List<Customer> customers;
 
 
     @Deprecated

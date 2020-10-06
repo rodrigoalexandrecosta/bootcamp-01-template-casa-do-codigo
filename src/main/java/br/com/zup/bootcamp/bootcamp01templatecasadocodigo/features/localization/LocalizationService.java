@@ -38,4 +38,16 @@ public class LocalizationService {
     public Optional<Country> findCountryById(final Long countryId) {
         return this.countryRepository.findById(countryId);
     }
+
+    public Optional<CountryState> findCountryStateById(final Long countryStateId) {
+        return this.countryStateRepository.findById(countryStateId);
+    }
+
+//    public Optional<CountryState> findCountryStateInsideCountry(final Country country, final Long countryStateId) {
+//        return Optional.ofNullable(country.getStates()
+//                .stream()
+//                .filter(state -> state.getId() == countryStateId)
+//                .findFirst();
+//
+//    }
 }

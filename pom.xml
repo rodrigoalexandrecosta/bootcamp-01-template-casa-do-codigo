@@ -190,7 +190,7 @@
 				<executions>
 					<execution>
 						<id>start</id>
-						<phase>compile</phase>
+						<phase>pre-integration-test</phase>
 						<goals>
 							<goal>build</goal>
 							<goal>start</goal>
@@ -198,7 +198,7 @@
 					</execution>
 					<execution>
 						<id>stop</id>
-						<phase>verify</phase>
+						<phase>post-integration-test</phase>
 						<goals>
 							<goal>stop</goal>
 						</goals>
