@@ -16,12 +16,19 @@ public class CategoryService {
 
     @Transactional
     public Long create(final CreateCategoryRequest request) {
+        if (this.existsByName(request.getName().toUpperCase())) {
+            throw new IllegalArgumentException("message.category.name.unique");
+        }
         final Category category = this.categoryRepository.save(request.toCategory());
         return category.getId();
     }
 
     public Optional<Category> findById(final Long categoryId) {
         return this.categoryRepository.findById(categoryId);
+    }
+
+    boolean existsByName(final String name) {
+        return this.categoryRepository.existsByName(name);
     }
 
 }

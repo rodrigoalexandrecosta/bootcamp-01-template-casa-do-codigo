@@ -11,10 +11,6 @@ public final class CategoryMock {
     }
 
     public static CreateCategoryRequest buildCreateCategoryRequest() {
-        return CreateCategoryRequest.builder().name(RandomString.make(25)).build();
-    }
-
-    public static Category buildCategory() {
-        return Category.builder().build();
+        return CreateCategoryRequest.builder().name(RandomString.make(25).toUpperCase()).build();
     }
 }

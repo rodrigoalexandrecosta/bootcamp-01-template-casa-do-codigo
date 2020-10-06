@@ -16,11 +16,19 @@ public class AuthorService {
 
     @Transactional
     public Long create(final CreateAuthorRequest request) {
-        final Author author = authorRepository.save(request.toAuthor());
+        if (this.existsByEmail(request.getEmail())) {
+            throw new IllegalArgumentException("message.author.email.unique");
+        }
+
+        final Author author = this.authorRepository.save(request.toAuthor());
         return author.getId();
     }
 
     public Optional<Author> findById(final Long authorId) {
-        return authorRepository.findById(authorId);
+        return this.authorRepository.findById(authorId);
+    }
+
+    boolean existsByEmail(final String email) {
+        return this.authorRepository.existsByEmail(email);
     }
 }
