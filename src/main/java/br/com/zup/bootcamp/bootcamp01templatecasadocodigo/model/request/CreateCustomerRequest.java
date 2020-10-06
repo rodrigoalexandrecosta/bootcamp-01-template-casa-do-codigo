@@ -2,10 +2,7 @@ package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request;
 
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Customer;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.validation.SocialIdentity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -14,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class CreateCustomerRequest {
 
     @NotBlank(message = "message.customer.email.mandatory")
