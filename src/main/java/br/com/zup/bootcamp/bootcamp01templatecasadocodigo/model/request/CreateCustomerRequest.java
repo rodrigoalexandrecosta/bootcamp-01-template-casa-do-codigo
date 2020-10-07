@@ -46,10 +46,10 @@ public class CreateCustomerRequest {
     @NotBlank(message = "message.customer.phone.mandatory")
     private String phone;
 
-    private Long countryStateId;
-
     @NotNull(message = "message.customer.country-id.mandatory")
     private Long countryId;
+
+    private Long countryStateId;
 
 
     public Customer toCostumer(final Country country, final CountryState state) {

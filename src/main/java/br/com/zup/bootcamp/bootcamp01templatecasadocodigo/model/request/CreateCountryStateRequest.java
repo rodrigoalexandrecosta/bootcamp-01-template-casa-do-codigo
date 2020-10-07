@@ -3,11 +3,13 @@ package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Country;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.CountryState;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
+@Setter
 public class CreateCountryStateRequest {
 
     @NotBlank(message = "message.country-state.name.mandatory")

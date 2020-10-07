@@ -3,8 +3,6 @@ package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.customer;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateCustomerRequest;
 import net.bytebuddy.utility.RandomString;
 
-import java.util.Random;
-
 public final class CustomerMock {
 
     private CustomerMock() {
