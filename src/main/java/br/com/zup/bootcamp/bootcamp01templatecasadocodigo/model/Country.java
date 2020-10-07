@@ -34,4 +34,8 @@ public class Country {
     public Country(String name) {
         this.name = name;
     }
+
+    public boolean stateBelongsToCountry(final Long countryStateId) {
+        return this.states.stream().anyMatch(state -> state.getId().equals(countryStateId));
+    }
 }

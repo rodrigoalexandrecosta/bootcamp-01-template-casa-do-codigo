@@ -23,10 +23,10 @@ public class CustomerService {
         final Country country = this.localizationService.findCountryById(request.getCountryId())
                 .orElseThrow();
 
-        final CountryState state = this.localizationService.findCountryStateById(request.getCountryStateId())
-                .orElse(null);
-
-//        final CountryState state =
+        final CountryState state = country.stateBelongsToCountry(request.getCountryStateId()) ?
+                this.localizationService.findCountryStateById(request.getCountryStateId()).orElse(null)
+                :
+                null;
 
         final Customer customer = this.customerRepository.save(request.toCostumer(country, state));
         return customer.getId();
