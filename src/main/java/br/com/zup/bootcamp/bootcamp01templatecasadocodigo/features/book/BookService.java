@@ -36,6 +36,10 @@ public class BookService {
         return book.getId();
     }
 
+    public Optional<Book> findById(final Long bookId) {
+        return this.bookRepository.findById(bookId);
+    }
+
     public Optional<BookDetailsByIdResponse> findDetailsById(final Long bookId) {
         return this.bookRepository.findById(bookId)
                 .stream()
