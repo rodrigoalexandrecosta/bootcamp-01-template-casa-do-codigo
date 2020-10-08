@@ -6,6 +6,7 @@ import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.book.BookMock
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.book.BookService
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.category.CategoryMock
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.category.CategoryService
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Book
 import org.junit.Before
 import org.junit.jupiter.api.AfterEach
 import org.springframework.beans.factory.annotation.Autowired
@@ -71,5 +72,23 @@ class OrderServiceIT extends Specification {
         IllegalArgumentException e = thrown()
         e.getMessage() == "message.book.not-found"
         orderId == null
+    }
+
+    def "Find a persisted order using a given id"() {
+        given: "I have an order id."
+        def request = OrderMock.buildCreateOrderRequest(bookId)
+        def orderId = this.orderService.createOrder(request)
+
+        when: "I try to find the order resources using its id."
+        def optionalOrder = this.orderService.findById(orderId)
+
+        then: "The order is correctly returned."
+        optionalOrder.isPresent()
+
+        and: "All required information are filled."
+        def order = optionalOrder.get()
+        order.getId() == orderId
+        order.getTotalPrice() == request.getTotalPrice()
+//        order.getItems().size() != 0
     }
 }

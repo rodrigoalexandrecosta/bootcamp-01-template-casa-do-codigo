@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +39,10 @@ public class OrderService {
                     return itemRequest.toOrderItem(book);
                 })
                 .collect(Collectors.toList());
+    }
+
+    public Optional<Order> findById(final Long orderId) {
+        return this.orderRepository.findById(orderId);
     }
 
     @Transactional
