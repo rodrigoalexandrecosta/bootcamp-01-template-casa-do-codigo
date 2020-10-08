@@ -31,12 +31,17 @@ public class OrderService {
 
     private List<OrderItem> getOrderItems(final List<CreateOrderItemRequest> itemsRequest) {
         return itemsRequest.stream()
-                .map(item -> {
-                    final Book book = this.bookService.findById(item.getBookId())
+                .map(itemRequest -> {
+                    final Book book = this.bookService.findById(itemRequest.getBookId())
                             .orElseThrow(() -> new IllegalArgumentException("message.book.not-found"));
 
-                    return item.toOrderItem(book);
+                    return itemRequest.toOrderItem(book);
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void deleteAllOrderItems() {
+        this.orderItemRepository.deleteAll();
     }
 }

@@ -6,7 +6,6 @@ import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.category.Cate
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.category.CategoryService
 import org.junit.Before
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeAll
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
@@ -26,17 +25,17 @@ class BookServiceIT extends Specification{
     @Autowired
     private BookService bookService
 
-//    @Shared
-//    private Long authorId
-//
-//    @Shared
-//    private Long categoryId
-//
-//    @Before
-//    def init() {
-//        def authorId = authorService.create(AuthorMock.buildCreateAuthorRequest())
-//        def categoryId = categoryService.create(CategoryMock.buildCreateCategoryRequest())
-//    }
+    @Shared
+    private Long authorId
+
+    @Shared
+    private Long categoryId
+
+    @Before
+    def init() {
+        authorId = authorService.create(AuthorMock.buildCreateAuthorRequest())
+        categoryId = categoryService.create(CategoryMock.buildCreateCategoryRequest())
+    }
 
     @AfterEach
     def cleanup() {

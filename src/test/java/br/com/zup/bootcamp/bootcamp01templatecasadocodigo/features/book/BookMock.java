@@ -29,6 +29,20 @@ public final class BookMock {
                 .build();
     }
 
+    public static CreateBookRequest buildCreateBookRequest(final Long categoryId, final Long authorId) {
+        return CreateBookRequest.builder()
+                .title("Clean Code: A Handbook of Agile Software Craftsmanship")
+                .synopsis("Even bad code can function. But if code isn’t clean, it can bring a development organization to its knees.")
+                .summary("Part 1 - Bad Code; Part 2 - Clean Code")
+                .price(new BigDecimal("129.90"))
+                .numberOfPages(546)
+                .isbn(new Random().nextLong())
+                .publicationDate(LocalDate.now().plusDays(1))
+                .categoryId(categoryId)
+                .authorId(authorId)
+                .build();
+    }
+
     public static Book buildBook() {
         return Book.builder()
                 .build();

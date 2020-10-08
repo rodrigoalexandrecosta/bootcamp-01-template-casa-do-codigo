@@ -1,6 +1,5 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.order;
 
-import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateOrderItemRequest;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateOrderRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -65,6 +64,7 @@ public class OrderRestControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().json(objectMapper.writeValueAsString(mandatoryMessages)));
     }
+
     @Test
     void createWithNegativeTotalPrice() throws Exception {
         final CreateOrderRequest request = OrderMock.buildCreateOrderRequest();
