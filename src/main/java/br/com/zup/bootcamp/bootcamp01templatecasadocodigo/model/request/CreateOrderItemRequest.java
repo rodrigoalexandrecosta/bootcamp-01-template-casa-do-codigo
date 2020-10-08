@@ -18,7 +18,7 @@ public class CreateOrderItemRequest {
     private Long bookId;
 
     @NotNull(message = "message.order-item.quantity.mandatory")
-    @Positive(message = "message.order-item.quantity.invalid-value")
+    @Positive(message = "message.order-item.quantity.positive-value")
     private Integer quantity;
 
     public OrderItem toOrderItem(final Book book) {

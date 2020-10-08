@@ -4,6 +4,7 @@ import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.book.BookServ
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Book;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Order;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.OrderItem;
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateOrderItemRequest;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateOrderRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,16 +23,20 @@ public class OrderService {
 
     @Transactional
     public Long createOrder(final CreateOrderRequest request) {
-        final List<OrderItem> items = request.getItems()
-                .stream()
-                .map(item -> {
-                    final Book book = this.bookService.findById(item.getBookId()).orElseThrow();
-                    return item.toOrderItem(book);
-                })
-                .collect(Collectors.toList());
-
+        final List<OrderItem> items = this.getOrderItems(request.getItems());
         this.orderItemRepository.saveAll(items);
         final Order order = this.orderRepository.save(request.toOrder(items));
         return order.getId();
+    }
+
+    private List<OrderItem> getOrderItems(final List<CreateOrderItemRequest> itemsRequest) {
+        return itemsRequest.stream()
+                .map(item -> {
+                    final Book book = this.bookService.findById(item.getBookId())
+                            .orElseThrow(() -> new IllegalArgumentException("message.book.not-found"));
+
+                    return item.toOrderItem(book);
+                })
+                .collect(Collectors.toList());
     }
 }

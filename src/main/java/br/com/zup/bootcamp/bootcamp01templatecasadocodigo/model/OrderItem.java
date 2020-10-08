@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -19,8 +20,14 @@ public class OrderItem {
 
     private Integer quantity;
 
+    private BigDecimal unitaryPrice;
+
+    //    private BigDecimal totalItemPrice = this.unitaryPrice.multiply(new BigDecimal(this.quantity));
+    private BigDecimal totalItemPrice;
+
     @ManyToOne
     private Order order;
+
 
     @Deprecated
     public OrderItem() {
@@ -30,5 +37,7 @@ public class OrderItem {
     public OrderItem(Book book, Integer quantity) {
         this.book = book;
         this.quantity = quantity;
+        this.unitaryPrice = book.getPrice();
+        this.totalItemPrice = this.unitaryPrice.multiply(new BigDecimal(this.quantity));
     }
 }

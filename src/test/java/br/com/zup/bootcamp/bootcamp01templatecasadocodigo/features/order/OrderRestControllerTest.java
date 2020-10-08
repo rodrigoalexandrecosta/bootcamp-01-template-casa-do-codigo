@@ -40,4 +40,13 @@ public class OrderRestControllerTest {
                 .andExpect(header().exists("Location"));
     }
 
+    @Test
+    void createWithoutOrMalformedBody() throws Exception {
+        final String body = "";
+        mockMvc.perform(post("/api/v1/localization/countries")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body))
+                .andExpect(status().is4xxClientError());
+    }
+
 }

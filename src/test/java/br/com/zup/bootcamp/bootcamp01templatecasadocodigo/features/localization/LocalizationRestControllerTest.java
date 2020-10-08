@@ -54,4 +54,22 @@ public class LocalizationRestControllerTest {
 
         Mockito.verify(this.localizationService, Mockito.times(1)).createCountryState(any());
     }
+
+    @Test
+    void createCountryWithoutOrMalformedBody() throws Exception {
+        final String body = "";
+        mockMvc.perform(post("/api/v1/localization/countries")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void createCountryStateWithoutOrMalformedBody() throws Exception {
+        final String body = "";
+        mockMvc.perform(post("/api/v1/localization/countries/country-states")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body))
+                .andExpect(status().is4xxClientError());
+    }
 }
