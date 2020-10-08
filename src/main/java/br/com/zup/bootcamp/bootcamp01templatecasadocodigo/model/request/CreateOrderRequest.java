@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
@@ -21,6 +22,7 @@ public class CreateOrderRequest {
     private BigDecimal totalPrice;
 
     @NotNull(message = "message.order.items.mandatory")
+    @Valid
     private List<CreateOrderItemRequest> items;
 
 
