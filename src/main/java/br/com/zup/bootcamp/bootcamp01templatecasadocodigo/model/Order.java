@@ -22,7 +22,7 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderItem> items;
 
-    @ManyToOne
+    @OneToOne
     private Customer customer;
 
 

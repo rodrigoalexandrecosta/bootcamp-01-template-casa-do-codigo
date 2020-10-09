@@ -3,7 +3,6 @@ package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Getter
@@ -50,6 +49,6 @@ public class Customer {
     @ManyToOne(fetch = FetchType.EAGER)
     private Country country;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Order> orders;
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Order order;
 }
