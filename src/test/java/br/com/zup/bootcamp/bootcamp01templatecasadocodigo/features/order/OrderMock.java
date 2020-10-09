@@ -18,13 +18,15 @@ public final class OrderMock {
         return CreateOrderRequest.builder()
                 .items(buildListOfCreateOrderItemRequest())
                 .totalPrice(new BigDecimal("299.90"))
+                .customerId(new Random().nextLong())
                 .build();
     }
 
-    public static CreateOrderRequest buildCreateOrderRequest(Long bookId) {
+    public static CreateOrderRequest buildCreateOrderRequest(Long bookId, Long customerId) {
         return CreateOrderRequest.builder()
                 .items(buildListOfCreateOrderItemRequest(bookId))
                 .totalPrice(new BigDecimal("299.90"))
+                .customerId(customerId)
                 .build();
     }
 

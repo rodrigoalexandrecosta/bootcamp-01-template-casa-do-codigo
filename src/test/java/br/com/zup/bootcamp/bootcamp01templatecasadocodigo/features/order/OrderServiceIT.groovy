@@ -6,6 +6,10 @@ import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.book.BookMock
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.book.BookService
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.category.CategoryMock
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.category.CategoryService
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.customer.CustomerMock
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.customer.CustomerService
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.localization.LocalizationMock
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.localization.LocalizationService
 import org.junit.Before
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -29,8 +33,17 @@ class OrderServiceIT extends Specification {
     @Autowired
     private CategoryService categoryService
 
+    @Autowired
+    private CustomerService customerService
+
+    @Autowired
+    private LocalizationService localizationService
+
     @Shared
     private Long bookId
+
+    @Shared
+    private Long customerId
 
     @Before
     def init() {
@@ -39,13 +52,15 @@ class OrderServiceIT extends Specification {
         def categoryId = categoryService.create(CategoryMock.buildCreateCategoryRequest())
         bookRequest.setAuthorId(authorId)
         bookRequest.setCategoryId(categoryId)
-
         bookId = this.bookService.create(bookRequest)
+
+        def countryId = this.localizationService.createCountry(LocalizationMock.buildCreateCountryRequest())
+        customerId = this.customerService.create(CustomerMock.buildCreateCustomerRequest(countryId))
     }
 
     def "Create a new order with success"() {
         given: "I have a new order information."
-        def request = OrderMock.buildCreateOrderRequest(bookId)
+        def request = OrderMock.buildCreateOrderRequest(bookId, customerId)
 
         when: "I handle this new order to be persistent."
         def orderId = this.orderService.createOrder(request)
@@ -58,6 +73,7 @@ class OrderServiceIT extends Specification {
     def "Try to create a new order without a book inside the order items should thrown an exception"() {
         given: "I have a new order information without the respective book resource."
         def request = OrderMock.buildCreateOrderRequest()
+        request.setCustomerId(customerId)
 
         when: "I try to persist this new order."
         def orderId = this.orderService.createOrder(request)
@@ -68,9 +84,23 @@ class OrderServiceIT extends Specification {
         orderId == null
     }
 
+    def "Try to create a new order without a customer inside the order should thrown an exception"() {
+        given: "I have a new order information without the respective customer resource."
+        def request = OrderMock.buildCreateOrderRequest(bookId, customerId)
+        request.setCustomerId(0L)
+
+        when: "I try to persist this new order."
+        def orderId = this.orderService.createOrder(request)
+
+        then: "The order is not stored and an exception is thrown."
+        IllegalArgumentException e = thrown()
+        e.getMessage() == "message.customer.not-found"
+        orderId == null
+    }
+
     def "Find a persisted order using a given id"() {
         given: "I have an order id."
-        def request = OrderMock.buildCreateOrderRequest(bookId)
+        def request = OrderMock.buildCreateOrderRequest(bookId, customerId)
         def orderId = this.orderService.createOrder(request)
 
         when: "I try to find the order resources using its id."

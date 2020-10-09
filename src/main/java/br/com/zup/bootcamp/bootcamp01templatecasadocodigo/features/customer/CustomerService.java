@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class CustomerService {
     public Long create(final CreateCustomerRequest request) {
 
         final Country country = this.localizationService.findCountryById(request.getCountryId())
-                .orElseThrow();
+                .orElseThrow(() -> new IllegalArgumentException("message.customer.country.not-found"));
 
         final CountryState state = country.stateBelongsToCountry(request.getCountryStateId()) ?
                 this.localizationService.findCountryStateById(request.getCountryStateId()).orElse(null)
@@ -30,5 +32,9 @@ public class CustomerService {
 
         final Customer customer = this.customerRepository.save(request.toCostumer(country, state));
         return customer.getId();
+    }
+
+    public Optional<Customer> findById(final Long customerId) {
+        return this.customerRepository.findById(customerId);
     }
 }

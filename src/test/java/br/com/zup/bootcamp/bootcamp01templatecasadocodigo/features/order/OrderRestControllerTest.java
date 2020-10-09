@@ -56,7 +56,7 @@ public class OrderRestControllerTest {
     void createWithoutMandatoryFields() throws Exception {
         final String body = objectMapper.writeValueAsString(CreateOrderRequest.builder().build());
         final List<String> mandatoryMessages = List.of("message.order.total-price.mandatory",
-                "message.order.items.mandatory");
+                "message.order.items.mandatory", "message.order.customer-id.mandatory");
 
         mockMvc.perform(post("/api/v1/orders")
                 .contentType(MediaType.APPLICATION_JSON)

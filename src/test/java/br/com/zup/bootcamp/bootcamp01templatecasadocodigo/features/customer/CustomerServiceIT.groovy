@@ -47,7 +47,8 @@ class CustomerServiceIT  extends Specification {
         def customerId = this.customerService.create(request)
 
         then: "The customer is not stored and an exception is thrown."
-        NoSuchElementException e = thrown()
+        IllegalArgumentException e = thrown()
+        e.getMessage() == "message.customer.country.not-found"
         customerId == null
     }
 }

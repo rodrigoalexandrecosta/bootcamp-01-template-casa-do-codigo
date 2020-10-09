@@ -1,5 +1,6 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request;
 
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Customer;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Order;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,8 +25,11 @@ public class CreateOrderRequest {
     @Valid
     private List<CreateOrderItemRequest> items;
 
+    @NotNull(message = "message.order.customer-id.mandatory")
+    private Long customerId;
 
-    public Order toOrder() {
-        return new Order(this.totalPrice);
+
+    public Order toOrder(Customer customer) {
+        return new Order(this.totalPrice, customer);
     }
 }

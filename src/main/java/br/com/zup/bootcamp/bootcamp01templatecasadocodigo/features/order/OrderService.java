@@ -1,7 +1,9 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.order;
 
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.book.BookService;
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.customer.CustomerService;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Book;
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Customer;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Order;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.OrderItem;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateOrderItemRequest;
@@ -21,10 +23,15 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final BookService bookService;
+    private final CustomerService customerService;
 
     @Transactional
     public Long createOrder(final CreateOrderRequest request) {
-        final Order order = this.orderRepository.save(request.toOrder());
+
+        final Customer customer = this.customerService.findById(request.getCustomerId())
+                .orElseThrow(() -> new IllegalArgumentException("message.customer.not-found"));
+
+        final Order order = this.orderRepository.save(request.toOrder(customer));
         final List<OrderItem> items = this.getOrderItems(order, request.getItems());
         this.orderItemRepository.saveAll(items);
         return order.getId();
@@ -32,11 +39,6 @@ public class OrderService {
 
     public Optional<Order> findById(final Long orderId) {
         return this.orderRepository.findById(orderId);
-    }
-
-    @Transactional
-    public void deleteAllOrderItems() {
-        this.orderItemRepository.deleteAll();
     }
 
     private List<OrderItem> getOrderItems(final Order order, final List<CreateOrderItemRequest> itemsRequest) {

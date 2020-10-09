@@ -22,18 +22,17 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderItem> items;
 
+    @ManyToOne
+    private Customer customer;
+
 
     @Deprecated
     public Order() {
 
     }
 
-    public Order(BigDecimal totalPrice) {
+    public Order(BigDecimal totalPrice, Customer customer) {
         this.totalPrice = totalPrice;
-    }
-
-    public Order(BigDecimal totalPrice, List<OrderItem> items) {
-        this.totalPrice = totalPrice;
-        this.items = items;
+        this.customer = customer;
     }
 }
