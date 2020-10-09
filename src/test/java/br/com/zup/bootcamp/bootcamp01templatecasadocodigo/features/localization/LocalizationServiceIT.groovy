@@ -50,6 +50,23 @@ class LocalizationServiceIT extends Specification {
         countrySateId == null
     }
 
+    def "Find a country by id"() {
+        given: "I have a country id."
+        def request = LocalizationMock.buildCreateCountryRequest()
+        def countryId = this.localizationService.createCountry(request)
+
+        when: "I try to find the country resources using this id."
+        def optionalCountry = this.localizationService.findCountryById(countryId)
+
+        then: "The country resources are returned."
+        optionalCountry.isPresent()
+
+        and: "All required information are filled."
+        def country = optionalCountry.get()
+        country.getId() == countryId
+        country.getName() == request.getName().toUpperCase()
+    }
+
     def "Create a list of states associated to a country and recover the states when finding the country"() {
         given: "I have a country and a list of associated states."
         def countryId = localizationService.createCountry(LocalizationMock.buildCreateCountryRequest())
@@ -68,22 +85,5 @@ class LocalizationServiceIT extends Specification {
         def states = country.getStates()
         states.size() == 3
         states.forEach({state -> statesIds.contains(state.getId()) })
-    }
-
-    def "Find a country by id"() {
-        given: "I have a country id."
-        def request = LocalizationMock.buildCreateCountryRequest()
-        def countryId = this.localizationService.createCountry(request)
-
-        when: "I try to find the country resources using this id."
-        def optionalCountry = this.localizationService.findCountryById(countryId)
-
-        then: "The country resources are returned."
-        optionalCountry.isPresent()
-
-        and: "All required information are filled."
-        def country = optionalCountry.get()
-        country.getId() == countryId
-        country.getName() == request.getName().toUpperCase()
     }
 }

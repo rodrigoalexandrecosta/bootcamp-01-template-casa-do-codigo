@@ -43,11 +43,6 @@ public final class BookMock {
                 .build();
     }
 
-    public static Book buildBook() {
-        return Book.builder()
-                .build();
-    }
-
     public static BookDetailsByIdResponse buildDetailsResponse() {
         return BookDetailsByIdResponse.builder()
                 .build();

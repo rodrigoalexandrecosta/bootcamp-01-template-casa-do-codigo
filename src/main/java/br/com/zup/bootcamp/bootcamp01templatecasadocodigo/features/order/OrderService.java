@@ -24,21 +24,10 @@ public class OrderService {
 
     @Transactional
     public Long createOrder(final CreateOrderRequest request) {
-        final List<OrderItem> items = this.getOrderItems(request.getItems());
+        final Order order = this.orderRepository.save(request.toOrder());
+        final List<OrderItem> items = this.getOrderItems(order, request.getItems());
         this.orderItemRepository.saveAll(items);
-        final Order order = this.orderRepository.save(request.toOrder(items));
         return order.getId();
-    }
-
-    private List<OrderItem> getOrderItems(final List<CreateOrderItemRequest> itemsRequest) {
-        return itemsRequest.stream()
-                .map(itemRequest -> {
-                    final Book book = this.bookService.findById(itemRequest.getBookId())
-                            .orElseThrow(() -> new IllegalArgumentException("message.book.not-found"));
-
-                    return itemRequest.toOrderItem(book);
-                })
-                .collect(Collectors.toList());
     }
 
     public Optional<Order> findById(final Long orderId) {
@@ -48,5 +37,16 @@ public class OrderService {
     @Transactional
     public void deleteAllOrderItems() {
         this.orderItemRepository.deleteAll();
+    }
+
+    private List<OrderItem> getOrderItems(final Order order, final List<CreateOrderItemRequest> itemsRequest) {
+        return itemsRequest.stream()
+                .map(itemRequest -> {
+                    final Book book = this.bookService.findById(itemRequest.getBookId())
+                            .orElseThrow(() -> new IllegalArgumentException("message.book.not-found"));
+
+                    return itemRequest.toOrderItem(order, book);
+                })
+                .collect(Collectors.toList());
     }
 }

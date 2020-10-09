@@ -14,7 +14,7 @@ import spock.lang.Specification
 
 @SpringBootTest
 @ActiveProfiles("it")
-class BookServiceIT extends Specification{
+class BookServiceIT extends Specification {
 
     @Autowired
     private AuthorService authorService
@@ -44,12 +44,7 @@ class BookServiceIT extends Specification{
 
     def "Create a new book with success"() {
         given: "I have a new book information."
-        def request = BookMock.buildCreateBookRequest()
-        def authorId = authorService.create(AuthorMock.buildCreateAuthorRequest())
-        def categoryId = categoryService.create(CategoryMock.buildCreateCategoryRequest())
-
-        request.setAuthorId(authorId)
-        request.setCategoryId(categoryId)
+        def request = BookMock.buildCreateBookRequest(categoryId, authorId)
 
         when: "I handle the new book to be persistent."
         def bookId = bookService.create(request)
@@ -61,11 +56,7 @@ class BookServiceIT extends Specification{
 
     def "Find the details of a book using a book id"() {
         given: "I have a book id."
-        def request = BookMock.buildCreateBookRequest()
-        def authorId = authorService.create(AuthorMock.buildCreateAuthorRequest())
-        def categoryId = categoryService.create(CategoryMock.buildCreateCategoryRequest())
-        request.setAuthorId(authorId)
-        request.setCategoryId(categoryId)
+        def request = BookMock.buildCreateBookRequest(categoryId, authorId)
         def bookId = bookService.create(request)
 
         when: "I try to find the details of this book using its id."
@@ -77,17 +68,10 @@ class BookServiceIT extends Specification{
 
     def "Find all books"() {
         given: "I have two books."
-        def request = BookMock.buildCreateBookRequest()
-        def authorId = authorService.create(AuthorMock.buildCreateAuthorRequest())
-        def categoryId = categoryService.create(CategoryMock.buildCreateCategoryRequest())
-
-        request.setAuthorId(authorId)
-        request.setCategoryId(categoryId)
+        def request = BookMock.buildCreateBookRequest(categoryId, authorId)
         bookService.create(request)
 
-        request = BookMock.buildCreateBookRequest()
-        request.setAuthorId(authorId)
-        request.setCategoryId(categoryId)
+        request = BookMock.buildCreateBookRequest(categoryId, authorId)
         bookService.create(request)
 
         when: "I try to find these two book resources."
@@ -99,17 +83,10 @@ class BookServiceIT extends Specification{
 
     def "Delete all books"() {
         given: "I have two books."
-        def request = BookMock.buildCreateBookRequest()
-        def authorId = authorService.create(AuthorMock.buildCreateAuthorRequest())
-        def categoryId = categoryService.create(CategoryMock.buildCreateCategoryRequest())
-
-        request.setAuthorId(authorId)
-        request.setCategoryId(categoryId)
+        def request = BookMock.buildCreateBookRequest(categoryId, authorId)
         bookService.create(request)
 
-        request = BookMock.buildCreateBookRequest()
-        request.setAuthorId(authorId)
-        request.setCategoryId(categoryId)
+        request = BookMock.buildCreateBookRequest(categoryId, authorId)
         bookService.create(request)
 
         when: "I try to delete all these two books."

@@ -34,7 +34,8 @@ public class OrderItem {
 
     }
 
-    public OrderItem(Book book, Integer quantity) {
+    public OrderItem(Order order, Book book, Integer quantity) {
+        this.order = order;
         this.book = book;
         this.quantity = quantity;
         this.unitaryPrice = book.getPrice();

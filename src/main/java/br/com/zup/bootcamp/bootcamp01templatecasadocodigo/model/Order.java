@@ -28,6 +28,10 @@ public class Order {
 
     }
 
+    public Order(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     public Order(BigDecimal totalPrice, List<OrderItem> items) {
         this.totalPrice = totalPrice;
         this.items = items;

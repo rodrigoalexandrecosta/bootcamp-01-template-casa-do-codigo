@@ -1,6 +1,7 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request;
 
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Book;
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Order;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.OrderItem;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class CreateOrderItemRequest {
     @Positive(message = "message.order-item.quantity.positive-value")
     private Integer quantity;
 
-    public OrderItem toOrderItem(final Book book) {
-        return new OrderItem(book, this.quantity);
+    public OrderItem toOrderItem(final Order order, final Book book) {
+        return new OrderItem(order, book, this.quantity);
     }
 }

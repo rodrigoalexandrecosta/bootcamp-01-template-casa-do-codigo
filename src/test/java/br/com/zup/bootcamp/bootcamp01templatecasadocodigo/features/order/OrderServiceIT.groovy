@@ -6,15 +6,15 @@ import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.book.BookMock
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.book.BookService
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.category.CategoryMock
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.category.CategoryService
-import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Book
 import org.junit.Before
-import org.junit.jupiter.api.AfterEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 import spock.lang.Shared
 import spock.lang.Specification
 
 @SpringBootTest
+@ActiveProfiles("it")
 class OrderServiceIT extends Specification {
 
     @Autowired
@@ -41,12 +41,6 @@ class OrderServiceIT extends Specification {
         bookRequest.setCategoryId(categoryId)
 
         bookId = this.bookService.create(bookRequest)
-    }
-
-    @AfterEach
-    def cleanup() {
-        orderService.deleteAllOrderItems()
-        bookService.deleteAll()
     }
 
     def "Create a new order with success"() {
@@ -89,6 +83,6 @@ class OrderServiceIT extends Specification {
         def order = optionalOrder.get()
         order.getId() == orderId
         order.getTotalPrice() == request.getTotalPrice()
-//        order.getItems().size() != 0
+        order.getItems().size() > 0
     }
 }

@@ -1,7 +1,6 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request;
 
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Order;
-import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.OrderItem;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +25,7 @@ public class CreateOrderRequest {
     private List<CreateOrderItemRequest> items;
 
 
-    public Order toOrder(final List<OrderItem> items) {
-        return new Order(this.totalPrice, items);
+    public Order toOrder() {
+        return new Order(this.totalPrice);
     }
 }

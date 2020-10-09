@@ -36,7 +36,6 @@ class CategoryServiceIT extends Specification {
         IllegalArgumentException e = thrown()
         e.getMessage() == "message.category.name.unique"
         anotherCategoryId == null
-
     }
 
     def "Find a category using an id"() {
