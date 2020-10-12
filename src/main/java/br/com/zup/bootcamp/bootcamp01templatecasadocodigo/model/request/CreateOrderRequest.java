@@ -28,6 +28,8 @@ public class CreateOrderRequest {
     @NotNull(message = "message.order.customer-id.mandatory")
     private Long customerId;
 
+    private String discountCouponCode;
+
 
     public Order toOrder(Customer customer) {
         return new Order(this.totalPrice, customer);

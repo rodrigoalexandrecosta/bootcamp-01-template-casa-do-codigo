@@ -2,16 +2,14 @@ package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.order;
 
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.book.BookService;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.customer.CustomerService;
-import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Book;
-import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Customer;
-import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Order;
-import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.OrderItem;
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.*;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateOrderItemRequest;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateOrderRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,11 +20,15 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final DiscountCouponRepository discountCouponRepository;
     private final BookService bookService;
     private final CustomerService customerService;
 
     @Transactional
     public Long createOrder(final CreateOrderRequest request) {
+
+//        DiscountCoupon discountCoupon = this.discountCouponRepository.findByCode(request.getDiscountCouponCode())
+//                .orElse(null);
 
         final Customer customer = this.customerService.findById(request.getCustomerId())
                 .orElseThrow(() -> new IllegalArgumentException("message.customer.not-found"));
@@ -50,5 +52,9 @@ public class OrderService {
                     return itemRequest.toOrderItem(order, book);
                 })
                 .collect(Collectors.toList());
+    }
+
+    private void applyDiscount(final BigDecimal totalPrice, final BigDecimal discountPercentage) {
+
     }
 }

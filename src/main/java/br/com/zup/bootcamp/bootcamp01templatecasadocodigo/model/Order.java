@@ -19,12 +19,16 @@ public class Order {
 
     private BigDecimal totalPrice;
 
+    private BigDecimal totalPriceWithDiscount;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderItem> items;
 
     @OneToOne
     private Customer customer;
 
+    @ManyToOne
+    private DiscountCoupon discountCoupon;
 
     @Deprecated
     public Order() {
@@ -35,4 +39,12 @@ public class Order {
         this.totalPrice = totalPrice;
         this.customer = customer;
     }
+
+    public Order(BigDecimal totalPrice, Customer customer, DiscountCoupon discountCoupon) {
+        this.totalPrice = totalPrice;
+        this.customer = customer;
+        this.discountCoupon = discountCoupon;
+    }
+
+
 }
