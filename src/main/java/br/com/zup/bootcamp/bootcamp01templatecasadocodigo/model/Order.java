@@ -35,16 +35,17 @@ public class Order {
 
     }
 
-    public Order(BigDecimal totalPrice, Customer customer) {
+    public Order(BigDecimal totalPrice, BigDecimal totalPriceWithDiscount, Customer customer) {
         this.totalPrice = totalPrice;
+        this.totalPriceWithDiscount = totalPriceWithDiscount;
         this.customer = customer;
     }
 
-    public Order(BigDecimal totalPrice, Customer customer, DiscountCoupon discountCoupon) {
+    public Order(BigDecimal totalPrice, BigDecimal totalPriceWithDiscount, Customer customer, DiscountCoupon discountCoupon) {
         this.totalPrice = totalPrice;
+        this.totalPriceWithDiscount = totalPriceWithDiscount;
         this.customer = customer;
         this.discountCoupon = discountCoupon;
     }
-
 
 }

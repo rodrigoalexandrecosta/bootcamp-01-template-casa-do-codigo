@@ -1,5 +1,7 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +13,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 public class DiscountCoupon {
 
     @Id
@@ -30,8 +34,7 @@ public class DiscountCoupon {
     public DiscountCoupon() {
     }
 
-    public DiscountCoupon(Long id, String code, BigDecimal discountPercentage, LocalDate validUntil) {
-        this.id = id;
+    public DiscountCoupon(String code, BigDecimal discountPercentage, LocalDate validUntil) {
         this.code = code;
         this.discountPercentage = discountPercentage;
         this.validUntil = validUntil;

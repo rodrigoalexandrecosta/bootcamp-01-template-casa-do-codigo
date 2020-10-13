@@ -1,5 +1,7 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request;
 
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.DiscountCoupon;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@Builder
 public class CreateDiscountCouponRequest {
 
     @NotBlank(message = "message.coupon.code.mandatory")
@@ -23,4 +26,8 @@ public class CreateDiscountCouponRequest {
 
     @FutureOrPresent(message = "message.coupon.valid-until.future-or-present-date")
     private LocalDate validUntil;
+
+    public DiscountCoupon toDiscountCoupon() {
+        return new DiscountCoupon(this.code, this.discountPercentage, this.validUntil);
+    }
 }

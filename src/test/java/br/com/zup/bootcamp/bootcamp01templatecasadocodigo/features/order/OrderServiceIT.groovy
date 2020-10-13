@@ -39,6 +39,9 @@ class OrderServiceIT extends Specification {
     @Autowired
     private LocalizationService localizationService
 
+    @Autowired
+    private DiscountCouponService discountCouponService
+
     @Shared
     private Long bookId
 
@@ -63,7 +66,7 @@ class OrderServiceIT extends Specification {
         def request = OrderMock.buildCreateOrderRequest(bookId, customerId)
 
         when: "I handle this new order to be persistent."
-        def orderId = this.orderService.createOrder(request)
+        def orderId = this.orderService.create(request)
 
         then: "The new order is created and persisted, and its id is returned."
         orderId != null
@@ -76,7 +79,7 @@ class OrderServiceIT extends Specification {
         request.setCustomerId(customerId)
 
         when: "I try to persist this new order."
-        def orderId = this.orderService.createOrder(request)
+        def orderId = this.orderService.create(request)
 
         then: "The order is not stored and an exception is thrown."
         IllegalArgumentException e = thrown()
@@ -90,7 +93,7 @@ class OrderServiceIT extends Specification {
         request.setCustomerId(0L)
 
         when: "I try to persist this new order."
-        def orderId = this.orderService.createOrder(request)
+        def orderId = this.orderService.create(request)
 
         then: "The order is not stored and an exception is thrown."
         IllegalArgumentException e = thrown()
@@ -101,7 +104,7 @@ class OrderServiceIT extends Specification {
     def "Find a persisted order using a given id"() {
         given: "I have an order id."
         def request = OrderMock.buildCreateOrderRequest(bookId, customerId)
-        def orderId = this.orderService.createOrder(request)
+        def orderId = this.orderService.create(request)
 
         when: "I try to find the order resources using its id."
         def optionalOrder = this.orderService.findById(orderId)
@@ -114,5 +117,44 @@ class OrderServiceIT extends Specification {
         order.getId() == orderId
         order.getTotalPrice() == request.getTotalPrice()
         order.getItems().size() > 0
+    }
+
+    def "Create a new order applying a discount coupon with success"() {
+        given: "I have a new order information and a discount coupon."
+        def request = OrderMock.buildCreateOrderRequest(bookId, customerId)
+        this.discountCouponService.create(DiscountCouponMock.buildCreateDiscountCouponRequest())
+        request.setDiscountCouponCode("PROMO10")
+
+        when: "I handle this new order to be persistent."
+        def orderId = this.orderService.create(request)
+        def optionalOrder = this.orderService.findById(orderId)
+
+        then: "The new order is created and stored, and its id is returned."
+        orderId != null
+        orderId.getClass().isAssignableFrom(Long.class)
+        optionalOrder.isPresent()
+
+        and: "The discount is correctly applied."
+        def order = optionalOrder.get()
+        order.getTotalPrice() != order.getTotalPriceWithDiscount()
+        order.getTotalPrice() > order.getTotalPriceWithDiscount()
+    }
+
+    def "Create an order without a discount coupon does not apply any discount"() {
+        given: "I have a new order information without any discount coupon."
+        def request = OrderMock.buildCreateOrderRequest(bookId, customerId)
+
+        when: "I handle this new order without discount to be persistent."
+        def orderId = this.orderService.create(request)
+        def optionalOrder = this.orderService.findById(orderId)
+
+        then: "The new order is created and stored, and its id is returned."
+        orderId != null
+        orderId.getClass().isAssignableFrom(Long.class)
+        optionalOrder.isPresent()
+
+        and: "No discount is applied."
+        def order = optionalOrder.get()
+        order.getTotalPrice() == order.getTotalPriceWithDiscount()
     }
 }

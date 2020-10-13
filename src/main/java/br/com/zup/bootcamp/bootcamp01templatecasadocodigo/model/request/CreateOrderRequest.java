@@ -1,6 +1,7 @@
 package br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request;
 
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Customer;
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.DiscountCoupon;
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.Order;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +11,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Getter
@@ -31,7 +34,18 @@ public class CreateOrderRequest {
     private String discountCouponCode;
 
 
-    public Order toOrder(Customer customer) {
-        return new Order(this.totalPrice, customer);
+    public Order toOrder(Customer customer, DiscountCoupon discountCoupon) {
+        if (discountCoupon == null) {
+            return new Order(this.totalPrice, this.totalPrice, customer);
+        }
+
+        final BigDecimal decimalDiscount = BigDecimal.ONE
+                .subtract((discountCoupon.getDiscountPercentage())
+                .setScale(2, RoundingMode.HALF_UP)
+                .divide(new BigDecimal("100"), new MathContext(5, RoundingMode.HALF_UP)));
+
+        final BigDecimal totalDiscount = this.totalPrice.multiply(decimalDiscount);
+
+        return new Order(this.totalPrice, this.totalPrice.subtract(totalDiscount), customer, discountCoupon);
     }
 }

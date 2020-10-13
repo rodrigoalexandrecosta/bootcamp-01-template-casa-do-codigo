@@ -34,7 +34,7 @@ public class OrderRestControllerTest {
     @Test
     void create() throws Exception {
         final String body = objectMapper.writeValueAsString(OrderMock.buildCreateOrderRequest());
-        Mockito.when(this.orderService.createOrder(any())).thenReturn(new Random().nextLong());
+        Mockito.when(this.orderService.create(any())).thenReturn(new Random().nextLong());
 
         mockMvc.perform(post("/api/v1/orders")
                 .contentType(MediaType.APPLICATION_JSON)
