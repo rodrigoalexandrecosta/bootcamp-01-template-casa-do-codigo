@@ -11,8 +11,10 @@ import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.customer.Cust
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.localization.LocalizationMock
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.localization.LocalizationService
 import org.junit.Before
+import org.junit.jupiter.api.AfterEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.ActiveProfiles
 import spock.lang.Shared
 import spock.lang.Specification
@@ -42,6 +44,12 @@ class OrderServiceIT extends Specification {
     @Autowired
     private DiscountCouponService discountCouponService
 
+    @Autowired
+    private OrderItemService orderItemService
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate
+
     @Shared
     private Long bookId
 
@@ -59,6 +67,12 @@ class OrderServiceIT extends Specification {
 
         def countryId = this.localizationService.createCountry(LocalizationMock.buildCreateCountryRequest())
         customerId = this.customerService.create(CustomerMock.buildCreateCustomerRequest(countryId))
+    }
+
+    @AfterEach
+    def cleanup() {
+        jdbcTemplate.update("DELETE FROM order_item")
+        jdbcTemplate.update("DELETE FROM book")
     }
 
     def "Create a new order with success"() {

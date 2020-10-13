@@ -13,6 +13,7 @@ import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -37,6 +38,10 @@ public class CreateOrderRequest {
     public Order toOrder(Customer customer, DiscountCoupon discountCoupon) {
         if (discountCoupon == null) {
             return new Order(this.totalPrice, this.totalPrice, customer);
+        }
+
+        if (discountCoupon.getValidUntil().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("message.coupon.valid-until.future-or-present-date");
         }
 
         final BigDecimal decimalDiscount = BigDecimal.ONE

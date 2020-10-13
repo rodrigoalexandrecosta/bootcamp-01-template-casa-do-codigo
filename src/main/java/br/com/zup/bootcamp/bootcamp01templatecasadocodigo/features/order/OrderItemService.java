@@ -8,6 +8,7 @@ import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.model.request.CreateOr
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,7 @@ public class OrderItemService {
     private final OrderItemRepository orderItemRepository;
     private final BookService bookService;
 
+    @Transactional
     public void create(final Order order, final List<CreateOrderItemRequest> itemsRequests) {
         List<OrderItem> items = this.buildOrderItems(order, itemsRequests);
         this.orderItemRepository.saveAll(items);

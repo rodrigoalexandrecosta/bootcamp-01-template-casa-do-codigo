@@ -4,10 +4,12 @@ import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.author.Author
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.author.AuthorService
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.category.CategoryMock
 import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.category.CategoryService
+import br.com.zup.bootcamp.bootcamp01templatecasadocodigo.features.order.OrderItemService
 import org.junit.Before
 import org.junit.jupiter.api.AfterEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.ActiveProfiles
 import spock.lang.Shared
 import spock.lang.Specification
@@ -25,6 +27,12 @@ class BookServiceIT extends Specification {
     @Autowired
     private BookService bookService
 
+    @Autowired
+    private OrderItemService orderItemService
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate
+
     @Shared
     private Long authorId
 
@@ -39,7 +47,7 @@ class BookServiceIT extends Specification {
 
     @AfterEach
     def cleanup() {
-        bookService.deleteAll()
+        jdbcTemplate.update("DELETE FROM book")
     }
 
     def "Create a new book with success"() {
